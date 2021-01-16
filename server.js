@@ -43,7 +43,7 @@ var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use('/assets', express.static('assets'))
+//app.use('/assets', express.static('public'));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({secret: process.env.SESSION_SECRET}));
