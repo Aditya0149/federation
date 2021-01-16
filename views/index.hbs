@@ -1,4 +1,28 @@
-<h1>{{title}}</h1>
-<p>
-  <a href="/login" class="btn">LOGIN WITH ISV</a>
-</p>
+<h1>Gslab as service provider</h1>
+<h4>Provide the following details to setup a SSO using SAML</h4>
+<form class="bx--form gs-form" action="/setup/" method="post">
+      <div class="bx--form-item">
+        <label class="bx--label">Proivder ID</label>
+        <input required class="bx--text-input" name="providerID" placeholder="Provider ID" value="{{metaData.providerID}}" />
+      </div>
+      <div class="bx--form-item">
+        <label class="bx--label">Login URL</label>
+        <input required class="bx--text-input" name="loginUrl" placeholder="Login URL" value="{{metaData.loginUrl}}" />
+      </div>
+      <div class="bx--form-item">
+        <label class="bx--label">Logout URL</label>
+        <input required class="bx--text-input" name="logoutUrl" placeholder="Login URL" value="{{metaData.logoutUrl}}" />
+      </div>
+      <div class="bx--form-item">
+        <label class="bx--label">Certificate</label>
+        <div class="bx--text-area__wrapper">
+          <textarea required rows="10" cols="50" name="cert" class="bx--text-input" >{{metaData.cert}}</textarea>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button type="submit" class="bx--btn bx--btn--primary">Submit</button>
+
+      </div>
+</form>
+
+

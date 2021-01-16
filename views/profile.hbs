@@ -1,4 +1,11 @@
-<h1>Hello {{user.given_name}}</h1>
-<p>
-  <a href="/logout" class="btn">Logout</a>
-</p>
+<h1>Welcome to Gslab, {{user.given_name}}</h1>
+<table class="bx--data-table bx--data-table--zebra">
+  <thead>
+    <tr><td>Property</td><td>Value</td></tr>
+  </thead>
+  <tbody>
+      {{#each user}}
+          <tr><td>{{@key}}</td><td>{{this}}</td></tr>
+      {{/each}}
+  </tbody>
+</table>

@@ -20,44 +20,30 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-var samlStrategy = new saml.Strategy({
-  // authnContext: ["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
-  //   "urn:federation:authentication:windows"],
-  // URL that goes from the Identity Provider -> Service Provider
-  callbackUrl: process.env.CALLBACK_URL,
-  // URL that goes from the Service Provider -> Identity Provider
-  entryPoint: process.env.ENTRY_POINT,
-  // Usually specified as `/shibboleth` from site root
-  issuer: process.env.ISSUER,
-  identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-  // Service Provider private key
-  //decryptionPvk: fs.readFileSync(__dirname + '/cert/key.pem', 'utf8'),
-  // Service Provider Certificate
-  privateCert: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
-  // Identity Provider's public key
-  cert: fs.readFileSync(__dirname + '/cic_certificate.cer', 'utf8'),
-  //validateInResponseTo: false,
-  //disableRequestedAuthnContext: true,
-  //signatureAlgorithm: 'sha256',
-  //digestAlgorithm: 'sha256'
-  logoutUrl: 'https://sitaram-mulik.ite1.idng.ibmcloudsecurity.com/idaas/mtfim/sps/idaas/logout',
-  logoutCallback: 'http://localhost:4006/login'
+var samlStrategy;
 
-}, function(profile, done) {
-    //Here save the nameId and nameIDFormat somewhere
-    user = {};
-    user.nameID = profile.nameID;
-    user.nameIDFormat = profile.nameIDFormat;
-    return done(null, profile); 
-});
 
-passport.use(samlStrategy);
+function setSamlStratergy(metaData) {
+  samlStrategy = new saml.Strategy({
+    callbackUrl: process.env.CALLBACK_URL,
+    entryPoint: metaData.loginUrl,
+    issuer: metaData.providerID,
+    identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+    privateCert: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
+    cert: metaData.cert,
+    logoutUrl: metaData.logoutUrl
+  
+  }, function(profile, done) {
+      return done(null, profile); 
+  });
+  passport.use(samlStrategy);
+}
 
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+app.use('/assets', express.static('assets'))
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({secret: process.env.SESSION_SECRET}));
@@ -66,11 +52,9 @@ app.use(passport.session());
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log('Authenticated...');
     return next();
   }
   else {
-    console.log('Not Authenticated...');
     return res.redirect('/home');
   }
 }
@@ -78,14 +62,12 @@ function ensureAuthenticated(req, res, next) {
 app.get('/',
   ensureAuthenticated, 
   function(req, res) {
-    // console.log("------------------------------   start ---------------------------------");
-    // console.log(req);
-    // console.log("------------------------------   end ---------------------------------");
-    //res.send(req.user);
-    //res.redirect('/profile');
+    let user = {...req.user};
+    delete user.issuer;
+    console.log('req ', req.user);
     res.render('profile', {
-      title: 'Profile',
-      user: req.user
+      user: user,
+      data: req.session.metaData
     });
   }
 );
@@ -100,9 +82,22 @@ app.get('/login',
 app.get('/home',
   function (req, res) {
     res.render('index', {
-      title: 'Login to Gslab',
-      user: req.user
+      user: req.user,
+      metaData: req.session.metaData
     });
+  }
+);
+
+app.post('/setup',
+  function (req, res) {
+    req.session.metaData = {
+      loginUrl: req.body.loginUrl,
+      providerID: req.body.providerID,
+      cert: req.body.cert,
+      logoutUrl: req.body.logoutUrl
+    };
+    setSamlStratergy(req.session.metaData);
+    res.redirect('/home');
   }
 );
 
@@ -120,19 +115,15 @@ app.get('/login/fail',
 );
 
 app.get('/logout', function(req, res) {
-  //req.logout();
-  //res.redirect('/');
-
   return samlStrategy.logout(req, function(err, uri) {
     req.logout();
-    //res.redirect('/home');
     return res.redirect(uri);
   });
 });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('Incorrect configuration provided...');
   err.status = 404;
   next(err);
 });
@@ -150,11 +141,6 @@ app.use(function(err, req, res, next) {
 
 // //logout
 passport.logoutSaml = function(req, res) {
-  //Here add the nameID and nameIDFormat to the user if you stored it someplace.
-  req.user.nameID = req.user.saml.nameID;
-  req.user.nameIDFormat = req.user.saml.nameIDFormat;
-
-
   samlStrategy.logout(req, function(err, request){
       if(!err){
           //redirect to the IdP Logout URL
@@ -162,7 +148,6 @@ passport.logoutSaml = function(req, res) {
       }
   });
 };
-
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
