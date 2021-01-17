@@ -33,7 +33,8 @@ function setSamlStratergy(metaData) {
     cert: metaData.cert,
     logoutUrl: metaData.logoutUrl,
     validateInResponseTo: true,
-    signatureAlgorithm: 'sha256'
+    signatureAlgorithm: 'sha256,
+    forceAuthn: true
   
   }, function(profile, done) {
       return done(null, profile); 
