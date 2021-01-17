@@ -31,7 +31,9 @@ function setSamlStratergy(metaData) {
     identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
     privateCert: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
     cert: metaData.cert,
-    logoutUrl: metaData.logoutUrl
+    logoutUrl: metaData.logoutUrl,
+    validateInResponseTo: true,
+    signatureAlgorithm: 'sha256'
   
   }, function(profile, done) {
       return done(null, profile); 
