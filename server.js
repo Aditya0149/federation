@@ -32,8 +32,6 @@ function setSamlStratergy(metaData) {
     privateCert: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
     cert: metaData.cert,
     logoutUrl: metaData.logoutUrl,
-    validateInResponseTo: true,
-    signatureAlgorithm: 'sha256,
     forceAuthn: true
   
   }, function(profile, done) {
