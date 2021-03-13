@@ -3,53 +3,16 @@
   <head>
     <title>Gslab SP</title>
     <link rel='stylesheet' href='https://unpkg.com/carbon-components/css/carbon-components.min.css' />
-    <style>
-      .wrapper {
-        max-width: 50rem;
-      }
-      .content {
-        margin: 0 auto;
-        overflow: scroll;
-        padding: 1rem;
-        //height: 80vh;
-      }
-      .header {
-        display: flex;
-        justify-content: center;
-        padding: 1rem 0 0;
-        position: relative;
-      }
-      .header .bx--btn {
-        position: absolute;
-        right: 0;
-        top: 2rem;
-      }
-      .bx--form-item {
-        margin-bottom: 2rem;
-      }
-      h1, h4 {
-        margin-bottom: 1rem;
-      }
-      textarea.bx--text-input {
-        height: auto;
-        padding: 1rem;
-      }
-      .btn-group {
-        width: 20rem;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-      }
-    </style>
+    <link rel='stylesheet' href='/public/style.css' />
   </head>
   <body class="bx--grid wrapper">
     <h1 class="header">
       <image src="https://cdn.glitch.com/c911d1a2-505b-4fa1-834c-22e09c0aaaa2%2Fgslab-logo.jpg?v=1610827577689" />
       {{#if metaData}}
-        <button class="bx--btn bx--btn--tertiary" onclick="location.href='login'">Login with ISV</button>
+        <button class="bx--btn bx--btn--tertiary" onclick="location.href='/saml/login'">Login with ISV</button>
       {{/if}}
       {{#if user}}
-        <button class="bx--btn bx--btn--danger" onclick="location.href='logout'">Logout</button>
+        <button class="bx--btn bx--btn--danger" onclick="location.href='/saml/logout'">Logout</button>
       {{/if}}
     </h1>
     <div class="content bx--tile--is-selected">

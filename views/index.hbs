@@ -1,52 +1,5 @@
-<h1>Gslab as service provider</h1>
-<h4>Provide the following details to setup a SSO using SAML</h4>
-<form class="bx--form gs-form" action="/setup/" method="post">
-      <div class="bx--form-item">
-        <label class="bx--label">Proivder ID</label>
-        <input required class="bx--text-input" name="providerID" placeholder="Provider ID" value="{{metaData.providerID}}" />
-      </div>
-      <div class="bx--form-item">
-        <label class="bx--label">Login URL</label>
-        <input required class="bx--text-input" name="loginUrl" placeholder="Login URL" value="{{metaData.loginUrl}}" />
-      </div>
-      <div class="bx--form-item">
-        <label class="bx--label">Logout URL</label>
-        <input required class="bx--text-input" name="logoutUrl" placeholder="Login URL" value="{{metaData.logoutUrl}}" />
-      </div>
-      <div class="bx--form-item">
-        <label class="bx--label">Certificate</label>
-        <div class="bx--text-area__wrapper">
-          <textarea rows="10" cols="50" name="cert" class="bx--text-input" >{{metaData.cert}}</textarea>
-        </div>
-      </div>
-      <div class="bx--form-item">
-        <label class="bx--label">Copy assertion consumer service URL</label>
-        <div class="bx--snippet bx--snippet--single">
-          <div class="bx--snippet-container">
-            <code>
-              <pre>
-                https://gslab-saml-sp.glitch.me/login/callback
-              </pre>
-            </code>
-          </div>
-        </div>
-      </div>
-      <div class="bx--form-item">
-        <label class="bx--label">Copy service provider SSO URLURL</label>
-        <div class="bx--snippet bx--snippet--single">
-          <div class="bx--snippet-container">
-            <code>
-              <pre>
-                https://gslab-saml-sp.glitch.me/login
-              </pre>
-            </code>
-          </div>
-        </div>
-      </div>
-      <div class="btn-group">
-        <button type="submit" class="bx--btn bx--btn--primary">Submit</button>
-
-      </div>
-</form>
+<h4>Setup federation with ISV by selecting any one of the following protocolas</h4>
+<a href="/saml" class="bx--tile bx--tile--is-selected seperator">SAML</a>
+<a href="/oidc-auth" class="bx--tile bx--tile--is-selected seperator">OIDC - Auth Flow</a>
 
 

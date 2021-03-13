@@ -4,53 +4,46 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 2em 1em;
-  line-height: 1.5em;
+.seperator {
+  margin-bottom: .5rem;
 }
 
-h1 {
-  font-style: italic;
-  color: #373fff;
-  max-width: calc(100% - 5rem);
-  line-height: 1.1;
+.wrapper {
+  max-width: 50rem;
 }
-
-form {
-  background-color: #eee;
-  display: grid;
-  grid-gap: 1em;
-  padding: 1em;
-  max-width: 40ch;
+.content {
+  margin: 0 auto;
+  overflow: scroll;
+  padding: 1rem;
+  background: #0a4868;
 }
-
-input {
-  border: 1px solid silver;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
+.content label, .content h1, .content h4 {
+  color: #fff;
 }
-
-form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: .25em;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 1.4em;
-  padding: 0.25em 1em;
-  max-width: 20ch;
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 0;
+  position: relative;
 }
-
-form button:hover {
-  background-color: lavender;
+.header .bx--btn {
+  position: absolute;
+  right: 0;
+  top: 2rem;
 }
-
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
+.bx--form-item {
+  margin-bottom: 2rem;
+}
+h1, h4 {
+  margin-bottom: 1rem;
+}
+textarea.bx--text-input {
+  height: auto;
+  padding: 1rem;
+}
+.btn-group {
+  width: 20rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
