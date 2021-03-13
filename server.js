@@ -21,7 +21,7 @@ passport.deserializeUser(function(user, done) {
 });
 
 var samlStrategy;
-// update this
+
 
 function setSamlStratergy(metaData) {
   samlStrategy = new saml.Strategy({
