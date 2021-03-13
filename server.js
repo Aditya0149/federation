@@ -150,7 +150,8 @@ passport.logoutSaml = function(req, res) {
   });
 };
 
+let port = process.env.PORT || 4000;
 // listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
+const listener = app.listen(port, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
